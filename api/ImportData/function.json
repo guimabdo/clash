@@ -1,10 +1,19 @@
 {
   "bindings": [
     {
-      "name": "myTimer",
-      "type": "timerTrigger",
+      "authLevel": "anonymous",
+      "type": "httpTrigger",
       "direction": "in",
-      "schedule": "0 */1 * * * *"
+      "name": "req",
+      "methods": [
+        "get"
+      ],
+      "route": "import"
+    },
+    {
+      "type": "http",
+      "direction": "out",
+      "name": "res"
     }
   ]
 }
