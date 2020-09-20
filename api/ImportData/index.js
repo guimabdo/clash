@@ -1,8 +1,6 @@
 const fetch = require('node-fetch');
 const MongoClient = require('mongodb').MongoClient;
 
-
-
 module.exports = async function (context, myTimer) {
     let headers = {
         'Authorization': `Bearer ${process.env["ClasOfClansApiToken"]}`
