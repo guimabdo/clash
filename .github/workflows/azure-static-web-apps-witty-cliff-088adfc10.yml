@@ -20,7 +20,7 @@ jobs:
           submodules: true
       - run: npm install
         working-directory: client
-      - run: ng build --prod
+      - run: npx ng build --prod
         working-directory: client
       - name: Build And Deploy
         id: builddeploy
