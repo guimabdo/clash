@@ -21,7 +21,7 @@
 			"isBackground": true,
 			"dependsOn": "npm install",
 			"options": {
-				"cwd": "${workspaceFolder}/api"
+				"cwd": "${workspaceFolder}/services"
 			}
 		},
 		{
@@ -29,7 +29,7 @@
 			"label": "npm install",
 			"command": "npm install",
 			"options": {
-				"cwd": "${workspaceFolder}/api"
+				"cwd": "${workspaceFolder}/services"
 			}
 		},
 		{
@@ -38,7 +38,7 @@
 			"command": "npm prune --production",
 			"problemMatcher": [],
 			"options": {
-				"cwd": "${workspaceFolder}/api"
+				"cwd": "${workspaceFolder}/services"
 			}
 		}
 	]
