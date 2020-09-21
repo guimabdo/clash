@@ -17,7 +17,14 @@ module.exports = async function (context, myTimer) {
         db.collection('ClansHistories').insertOne({
             at: timeStamp,
             tag: clan.tag,
-            clan
+            clan: {
+                tag: clan.tag,
+                memberList: clan.memberList.map(m => ({
+                    tag: m.tag,
+                    name: m.name,
+                    clanRank: m.clanRank
+                }))
+            }
         });
 
         let playersHistories = [];
@@ -29,7 +36,11 @@ module.exports = async function (context, myTimer) {
                 at: timeStamp,
                 tag: player.tag,
                 clangTag: clan.tag,
-                player
+                player: {
+                    tag: player.tag,
+                    name: player.name,
+                    achievements: player.achievements.filter(a => a.name == 'Games Champion')
+                }
             });
         }
         db.collection('PlayersHistories').insertMany(playersHistories);
