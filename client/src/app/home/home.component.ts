@@ -10,10 +10,12 @@ export class HomeComponent {
     histories: ClanHistory[] = [];
     baseUrl = environment.production ? '/' : 'http://localhost:7071/';
 
-    points: { [playerName: string]: { current?: number, cumulative: number } } = {};
+    points: { [playerName: string]: { current?: number, cumulative: number, inClan: boolean } } = {};
     pointsList: {
         playerName: string,
-        cumulative: number
+        cumulative: number,
+        inClan: boolean,
+        position?: string
     }[] = [];
 
     constructor() {
@@ -26,9 +28,10 @@ export class HomeComponent {
         this.histories = await (await fetch(`${this.baseUrl}api/histories?after=${after}`)).json();
 
         for(const h of this.histories){
+            let isCurrent = this.histories[this.histories.length - 1] == h;
             for(const p of h.players){
                 const playerKey = `${p.name} (${p.tag})`;
-                this.points[playerKey] = this.points[playerKey] || { current: null, cumulative: 0 };
+                this.points[playerKey] = this.points[playerKey] || { current: null, cumulative: 0, inClan: false };
                 const entry = this.points[playerKey];
 
 
@@ -36,14 +39,30 @@ export class HomeComponent {
                     entry.cumulative += p.achievements[0].value - entry.current;
                 }
                 entry.current = p.achievements[0].value;
+
+                if(isCurrent){
+                    entry.inClan = true;
+                }
             }
         }
 
         this.pointsList = [];
         for(const p in this.points){
-            this.pointsList.push({ playerName: p, cumulative: this.points[p].cumulative });
+            const data = this.points[p];
+            this.pointsList.push({ 
+                playerName: p, 
+                cumulative: 
+                data.cumulative, 
+                inClan: data.inClan
+            });
         }
         this.pointsList.sort((a,b) => b.cumulative - a.cumulative);
-
+        
+        let number = 1;
+        for(let pl of this.pointsList){
+            if(pl.inClan){
+                pl.position = (number++).toString().padStart(2, '0');
+            }
+        }
     }
 }

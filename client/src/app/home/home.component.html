@@ -1,6 +1,10 @@
 <h1 mat-subheader>Jogos</h1>
 <mat-list>
     <mat-list-item mat-list-item *ngFor="let p of pointsList">
-        {{p.playerName}}: {{p.cumulative}}
+        <!-- <mat-icon mat-list-icon *ngIf="p.inClan">{{p.position}}</mat-icon> -->
+        <div mat-list-icon *ngIf="p.inClan">{{p.position}}</div>
+        <mat-icon mat-list-icon *ngIf="!p.inClan">directions_run</mat-icon> 
+        <strong style="padding-right: 16px; padding-left: 16px;">{{p.cumulative.toString().padStart(4, '0') }}</strong>
+        <span>{{p.playerName}}</span>
     </mat-list-item>
 </mat-list>
