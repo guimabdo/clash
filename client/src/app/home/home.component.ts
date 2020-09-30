@@ -8,6 +8,7 @@ import { environment } from 'src/environments/environment';
 })
 export class HomeComponent {
     histories: ClanHistory[] = [];
+    leagueRecruits: string[] = [];
     baseUrl = environment.production ? '/' : 'http://localhost:7071/';
 
     points: { [playerName: string]: { current?: number, cumulative: number, inClan: boolean } } = {};
@@ -23,8 +24,9 @@ export class HomeComponent {
     }
 
     async init() {
-        const now = new Date();
         const after = DateTime.local().minus({ weeks: 2 }).toISO();
+
+        this.leagueRecruits = (await (await fetch(`${this.baseUrl}api/league-recruitments/last`)).json()).recruits;
         this.histories = await (await fetch(`${this.baseUrl}api/histories?after=${after}`)).json();
 
         for(const h of this.histories){
